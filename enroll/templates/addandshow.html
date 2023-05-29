@@ -1,0 +1,58 @@
+{% extends "base.html"%} {% block content%}
+
+  <div class="container mt-5">
+    <h2 class="text-center alert alert-danger">All the Employees are here.</h2>
+  </div>
+  <a class="btn btn-primary my-4" href="{% url 'add-employee'%}" role="button"
+    >Add Employee</a
+  >
+  <div class="col-sm-18">
+    <h4 class="text-center alert alert-info">Show Employees Information</h4>
+    {% if emp %}
+    <table class="table table-hover table-striped table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Password</th>
+          <th scope="col">Jobtype</th>
+          <th scope="col">Salary</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for emp in emp%}
+        <tr>
+          <td scope="row">{{emp.id}}</td>
+          <td>{{emp.username}}</td>
+          <td>{{emp.email}}</td>
+          <td>{{emp.password}}</td>
+          <td>{{emp.jobtype}}</td>
+          <td>{{emp.salary}}</td>
+          <td>
+            <a
+              href="{% url 'update-data' emp.id %}"
+              class="btn btn-warning btn-sm"
+            >
+              Edit</a
+            >
+            <form
+              action="{% url 'delete-data' emp.id %}"
+              method="post"
+              class="d-inline"
+            >
+              {% csrf_token %}
+              <input type="submit" class="btn btn-danger" value="Delete" />
+            </form>
+          </td>
+        </tr>
+        {%endfor%} {%else %}
+        <h4 class="text-center alert alert-warning">No Data Available</h4>
+      </tbody>
+    </table>
+
+    {% endif%}
+  </div>
+</div>
+{%endblock%}
